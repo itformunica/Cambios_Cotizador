@@ -49,7 +49,7 @@ REFERENCES fnica.fmlTransporte (IDTransporte)
 
 GO
 
-CREATE TABLE fnica.fmlVehiculoTransporte(
+CREATE TABLE fnica.fmlTransporteVehiculo(
 	IDVehiculo INT IDENTITY(1,1) NOT NULL,
 	IDConductor INT  NOT NULL,
 	IDTransporte INT NOT NULL,
@@ -71,15 +71,14 @@ CREATE TABLE fnica.fmlVehiculoTransporte(
 
 GO
 
-ALTER TABLE fnica.fmlVehiculoTransporte WITH CHECK ADD  CONSTRAINT fkVehiculo_Transporte FOREIGN KEY(IDTransporte)
+ALTER TABLE fnica.fmlTransporteVehiculo WITH CHECK ADD  CONSTRAINT fkVehiculo_Transporte FOREIGN KEY(IDTransporte)
 REFERENCES fnica.fmlTransporte (IDTransporte)
 
 GO
 
 
-ALTER TABLE fnica.fmlVehiculoTransporte WITH CHECK ADD  CONSTRAINT fkVehiculo_Conductor FOREIGN KEY(IDTransporte,IDVehiculo)
-REFERENCES fnica.fmlVehiculoTransporte (IDTransporte,IDVehiculo)
-
+ALTER TABLE fnica.fmlTransporteVehiculo WITH CHECK ADD  CONSTRAINT fkVehiculo_Conductor FOREIGN KEY(IDTransporte,IDVehiculo)
+REFERENCES fnica.fmlTransorteConductor (IDTransporte,IDVehiculo)
 
 GO
 
@@ -130,3 +129,13 @@ CREATE TABLE fnica.fmlGuiaTraslado(
 	IDGuiaTraslado ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
+
+GO
+
+ALTER TABLE fnica.fmlGuiaTraslado WITH CHECK ADD  CONSTRAINT fmlGuiaTraslado_Transporte FOREIGN KEY (IDTransporte,IDVehiculo)
+REFERENCES fnica.fmlVehiculoTransporte (IDTransporte,IDVehiculo)
+
+GO
+
+ALTER TABLE fnica.fmlGuiaTraslado WITH CHECK ADD  CONSTRAINT fmlGuiaTraslado_Vehiculo FOREIGN KEY (IDTransporte,IDConductor)
+REFERENCES fnica.fmlTransorteConductor (IDTransporte,IDConductor)
